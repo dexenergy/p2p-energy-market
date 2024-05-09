@@ -48,7 +48,7 @@ source $WORKSHOP_PATH/_cfg/uf/org1admin.env
 Then, you can start the development of the chain code by executing: 
 
 ```@bash
-cd contracts/asset-transfer-typescript
+cd contracts/basic
 npm install 
 npm run build
 npm run start:server-debug
