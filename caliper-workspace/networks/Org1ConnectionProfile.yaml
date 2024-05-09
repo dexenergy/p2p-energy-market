@@ -1,0 +1,30 @@
+---
+name: test-network-org1
+version: 1.0.0
+client:
+  organization: Org1MSP
+  connection:
+    timeout:
+      peer:
+        endorser: '60000'
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+    - peer0.org1.example.com
+    certificateAuthorities:
+    - ca0.example.com
+peers:
+  peer0.org1.example.com:
+    url: grpcs://localhost:7051
+    tlsCACerts:
+      path: ../features/fixtures/crypto-material/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.example.com
+certificateAuthorities:
+  ca0.example.com:
+    url: https://localhost:7054
+    caName: ca0
+    tlsCACerts:
+      path: ../features/fixtures/crypto-material/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem
+      verify: false

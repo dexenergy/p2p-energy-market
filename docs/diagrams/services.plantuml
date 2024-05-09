@@ -1,0 +1,24 @@
+@startuml Producer Consumer
+substation -> Blockchain: create timeslot
+Blockchain --> Bidder@org1: new timeslot
+producer@org1 -> Bidder@org1: create sale order
+Bidder@org1 --> producer@org1: OK
+Bidder@org1 -> Blockchain: create prod. sale order
+Blockchain --> Bidder@org2: new prod. sale order
+Blockchain --> Bidder@org1: new prod. sale order
+consumer@org2 -> Bidder@org2: create buy order
+Bidder@org2 --> consumer@org2: OK
+Bidder@org2 -> Blockchain: create cons. buy order
+Blockchain --> Bidder@org1: new cons. buy order
+Blockchain --> Bidder@org2: new cons. buy order
+substation -> Blockchain: close timeslot
+Blockchain --> Bidder@org1: new trades
+Blockchain --> Bidder@org2: new trades
+Blockchain --> Bidder@org1: close timeslot
+Blockchain --> Bidder@org2: close timeslot
+substation -> Blockchain: end timeslot
+Blockchain --> Peer@org1: endorse transaction
+Peer@org1 -> Blockchain: endorse transaction
+Blockchain --> Peer@org2: endorse transaction
+Peer@org2 -> Blockchain: endorse transaction
+@enduml

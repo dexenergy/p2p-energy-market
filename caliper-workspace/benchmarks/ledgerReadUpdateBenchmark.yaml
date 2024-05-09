@@ -1,0 +1,47 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      number: 4
+    rounds:
+      - label: Create Buy Orders
+        description: Bob creates buy orders
+        txDuration: 50
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 210
+        workload:
+          module: workload/ledgerReadUpdateBuyOrders.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            price: 10
+      - label: Create Sale Orders
+        description: Alice creates sale orders
+        txDuration: 50
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 210
+        workload:
+          module: workload/ledgerReadUpdateSaleOrders.js
+          arguments:
+            contractId: basic
+            invokerIdentity: Alice
+            price: 9
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - /peer0.org1.example.com       
+      - /peer0.org2.example.com 
+      - /peer0.org3.example.com 
+      - /orderer1.example.com 
+      - /orderer2.example.com
+      - /orderer3.example.com  
+      charting:  
+        polar:
+          metrics: [all]

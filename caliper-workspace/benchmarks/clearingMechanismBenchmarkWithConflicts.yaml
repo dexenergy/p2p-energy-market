@@ -1,0 +1,33 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      number: 2
+    rounds:
+      - label: Clear Buy Orders (With Conflicts)
+        description: Bob clear his buy orders
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 5
+        workload:
+          module: workload/ledgerReadUpdateClearBuyOrdersWithConflicts.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - /peer0.org1.example.com       
+      - /peer0.org2.example.com 
+      - /peer0.org3.example.com 
+      - /orderer1.example.com 
+      - /orderer2.example.com
+      - /orderer3.example.com  
+      charting:  
+        polar:
+          metrics: [all]

@@ -1,0 +1,29 @@
+@startuml
+
+SmartMeterA -> EnergyGeneration : MintUserA, quantity
+EnergyGeneration --> SmartMeterA : Tx1
+SmartMeterB -> EnergyConsumption: Mint(UserB, quantity)
+EnergyConsumption --> SmartMeterB: Tx2
+
+UserA -> EnergyGeneration: getBalance
+EnergyGeneration --> UserA: Tx1
+UserA -> OrderBook : createSaleOrder(Tx1, quantity)
+OrderBook --> UserA : <Tx3 - SaleOrder>
+
+UserB -> EnergyConsumption: getBalance
+EnergyConsumption --> UserB: Tx2
+UserB -> OrderBook : createBuyOrder(Tx2, quantity)
+OrderBook --> UserA : <Tx4 - SaleOrder>
+
+UserA -> OrderBook : clearSaleOrder(Tx3)
+OrderBook --> UserA : <Tx5 - Trade>
+
+UserB -> Trades : getTrades()
+Trades --> UserB : <Tx5 - Trade>
+
+UserB -> Trades: ApproveTrade(Tx5)
+UserA -> Trades: ApproveTrade(Tx5)
+
+UserB -> Trades: Claim(Tx5)
+UserA -> Trades: Claim(Tx5)
+@enduml

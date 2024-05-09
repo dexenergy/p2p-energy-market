@@ -1,0 +1,83 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "Basic contract implemented in TypeScript",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">=18.12.0"
+  },
+  "scripts": {
+    "lint": "eslint ./src ./test --ext .ts",
+    "format": "prettier --ignore-path=.gitignore --check \"**/*.{ts,json,md}\"",
+    "format:fix": "prettier --ignore-path=.gitignore --write \"**/*.{ts,json,md}\"",
+    "pretest": "npm run lint",
+    "test": "nyc mocha -r ts-node/register test/*.test.ts",
+    "start": "set -x && fabric-chaincode-node start",
+    "build": "npm-run-all clean format compile lint",
+    "clean": "rm -rf dist",
+    "compile": "tsc",
+    "compile:watch": "tsc -w",
+    "prepublishOnly": "npm run build",
+    "metadata": "set -x && fabric-chaincode-node metadata generate --file metadata.json",
+    "package:caas": "npm run build && weft chaincode package caas --path . --label basic --address ${CHAINCODE_SERVER_ADDRESS} --archive basic-caas.tgz --quiet",
+    "package:k8s": "npm run build && weft chaincode package caas --path . --label basic --address ${CHAINCODE_SERVER_ADDRESS} --archive basic-caas.tgz --quiet",
+    "start:server-nontls": "set -x && fabric-chaincode-node server --chaincode-address=$CHAINCODE_SERVER_ADDRESS --chaincode-id=$CHAINCODE_ID",
+    "start:server-debug": "set -x && NODE_OPTIONS='--inspect=0.0.0.0:9229' fabric-chaincode-node server --chaincode-address=$CHAINCODE_SERVER_ADDRESS --chaincode-id=$CHAINCODE_ID",
+    "start:server": "set -x && fabric-chaincode-node server --chaincode-address=$CHAINCODE_SERVER_ADDRESS --chaincode-id=$CHAINCODE_ID --chaincode-tls-key-file=/hyperledger/privatekey.pem --chaincode-tls-client-cacert-file=/hyperledger/rootcert.pem --chaincode-tls-cert-file=/hyperledger/cert.pem"
+  },
+  "author": "Hyperledger",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "fabric-contract-api": "~2.5.3",
+    "fabric-shim": "~2.5.3",
+    "json-stringify-deterministic": "^1.0.7",
+    "sort-keys-recursive": "^2.1.7",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^2.0.0",
+    "@types/chai": "^4.3.9",
+    "@types/chai-as-promised": "^7.1.8",
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^18.16.1",
+    "@types/sinon": "^10.0.20",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "chai": "^4.3.10",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^9.0.0",
+    "mocha": "^10.2.0",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "prettier": "3.0.3",
+    "sinon": "^17.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "~5.0.4"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "coverage/**/*",
+      "dist/**/*",
+      "test/**/*",
+      ".eslintrc.js"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "statements": 72,
+    "branches": 51,
+    "functions": 61,
+    "lines": 74
+  }
+}

@@ -1,0 +1,33 @@
+name: Calier test
+version: "2.0.0"
+
+caliper:
+  blockchain: fabric
+
+channels:
+  - channelName: mychannel
+    contracts:
+    - id: basic
+organizations:
+  - mspid: Org1MSP
+    identities:
+      certificates:
+      - name: 'Alice'
+        clientPrivateKey:
+          path: '../features/fixtures/crypto-material/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/key.pem'
+        clientSignedCert:
+          path: '../features/fixtures/crypto-material/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem'
+    connectionProfile:
+      path: 'networks/Org1ConnectionProfile.yaml'
+      discover: true
+  - mspid: Org2MSP
+    identities:
+      certificates:
+      - name: 'Bob'
+        clientPrivateKey:
+          path: '../features/fixtures/crypto-material/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/key.pem'
+        clientSignedCert:
+          path: '../features/fixtures/crypto-material/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/User1@org2.example.com-cert.pem'                    
+    connectionProfile:
+      path: 'networks/Org2ConnectionProfile.yaml'
+      discover: true          

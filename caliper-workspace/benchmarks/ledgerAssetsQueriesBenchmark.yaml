@@ -1,0 +1,60 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      number: 2
+    rounds:
+      - label: Energy Consumption Queries
+        description: Bob get balance of energy consumption units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 5
+        workload:
+          module: workload/queryLedgerWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            contractFunction: EnergyConsumptionContract:BalanceOf
+      - label: Credit Queries
+        description: Bob get balance of credit units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 5
+        workload:
+          module: workload/queryLedgerWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            contractFunction: CreditContract:BalanceOf            
+      - label: Energy Generation Queries
+        description: Alice get balance of energy generation units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 5
+        workload:
+          module: workload/queryLedgerWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: Alice
+            contractFunction: EnergyGenerationContract:BalanceOf                    
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - /peer0.org1.example.com       
+      - /peer0.org2.example.com 
+      - /peer0.org3.example.com 
+      - /orderer1.example.com 
+      - /orderer2.example.com
+      - /orderer3.example.com  
+      charting:  
+        polar:
+          metrics: [all]

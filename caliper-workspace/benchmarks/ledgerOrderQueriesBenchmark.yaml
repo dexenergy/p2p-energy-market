@@ -1,0 +1,49 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      number: 2
+    rounds:
+      - label:  Buy Orders Queries
+        description: Bob gets Buy orders
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 300
+        workload:
+          module: workload/queryLedgerWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            contractFunction: OrderBookContract:getClientBuyOrders      
+            args: ["17-04-2024"]                         
+      - label:  Sale Orders Queries
+        description: Alice gets Sale orders
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 300
+        workload:
+          module: workload/queryLedgerWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: Alice
+            contractFunction: OrderBookContract:getClientSaleOrders      
+            args: ["24-03-2024"]                         
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - /peer0.org1.example.com       
+      - /peer0.org2.example.com 
+      - /peer0.org3.example.com 
+      - /orderer1.example.com 
+      - /orderer2.example.com
+      - /orderer3.example.com  
+      charting:  
+        polar:
+          metrics: [all]

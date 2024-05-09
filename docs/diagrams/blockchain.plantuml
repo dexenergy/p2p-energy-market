@@ -1,0 +1,18 @@
+@startuml p2p blockchain 
+Microgrid -> BlockChain : create timeslot
+org1 -> BlockChain : create sale order 
+org2 -> BlockChain : create buy order 
+org2 -> BlockChain : create sale order 
+org3 -> BlockChain : create buy order
+Microgrid -> BlockChain : close timeslot
+BlockChain -> BlockChain: match orders
+BlockChain -> BlockChain: create trades
+Microgrid -> BlockChain : end timeslot
+BlockChain -> BlockChain: settle trades
+BlockChain -> org1: endorse settlement
+org1 --> BlockChain: 
+BlockChain -> org2: endorse settlement
+org2 --> BlockChain:   
+BlockChain -> org3: endorse settlement  
+org3 --> BlockChain:
+@enduml

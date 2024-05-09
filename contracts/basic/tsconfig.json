@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@tsconfig/node18/tsconfig.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "Node16",
+    "outDir": "dist",
+    "declaration": true,
+    "sourceMap": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "types": ["node", "mocha"]
+  },
+  "include": ["./src/**/*"]
+}

@@ -1,0 +1,15 @@
+@startuml
+:Prosumer: --> (Add Sell Order)
+:Prosumer: --> (Add Buy Order)
+:Prosumer: --> (Get Energy Balance)
+:Prosumer: --> (Get Credit Balance)
+
+:Auctioneer: --> (Start Auction)
+:Auctioneer: --> (Close Auction)
+:Auctioneer: --> (End Auction)
+:Auctioneer: --> (Settlement)
+
+:Utility: --> (Certificate for Buyer)
+:Utility: --> (Add Credit)
+:Utility: --> (Add Energy Credit)
+@enduml

@@ -1,0 +1,63 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      number: 4
+    rounds:
+      - label: Energy Consumption
+        description: Bob mints 100 energy consumption units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 210
+        workload:
+          module: workload/ledgerUpdateWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            consumption: 100
+            contractFunction: EnergyConsumptionContract:Mint
+      - label: Credit registration
+        description: Bob mints 1000 credit units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 210
+        workload:
+          module: workload/ledgerUpdateWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: _Org2MSP_Bob
+            consumption: 1000
+            contractFunction: CreditContract:Mint
+      - label: Energy generation
+        description: Alice mints 100 Energy generation units
+        txDuration: 60
+        rateControl:
+          type: fixed-rate
+          opts:
+            tps: 210
+        workload:
+          module: workload/ledgerUpdateWorkload.js
+          arguments:
+            contractId: basic
+            invokerIdentity: Alice
+            consumption: 100
+            contractFunction: EnergyGenerationContract:Mint                        
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5
+      containers:
+      - /peer0.org1.example.com       
+      - /peer0.org2.example.com 
+      - /peer0.org3.example.com 
+      - /orderer1.example.com 
+      - /orderer2.example.com
+      - /orderer3.example.com  
+      charting:  
+        polar:
+          metrics: [all]

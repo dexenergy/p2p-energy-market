@@ -1,0 +1,22 @@
+@startuml p2p blockchain 
+Auctioner -> BlockChain : create timeslot
+org1 -> BlockChain : mint Energy token for User1
+org2 -> BlockChain : mint Credit token for User2 
+org2 -> BlockChain : mint Energy token for User3 
+org3 -> BlockChain : mint Credit token for User4
+User1 -> BlockChain : Create Sale Order
+User2 -> BlockChain : Create Buy Order
+User3 -> BlockChain : Create Sale Order
+User4 -> BlockChain : Create Buy Order
+Auctioneer -> BlockChain : close timeslot
+BlockChain -> BlockChain: match orders
+BlockChain -> BlockChain: create trades
+Auctioneer -> BlockChain : end timeslot
+BlockChain -> BlockChain: settle trades
+BlockChain -> org1: endorse settlement
+org1 --> BlockChain: 
+BlockChain -> org2: endorse settlement
+org2 --> BlockChain:   
+BlockChain -> org3: endorse settlement  
+org3 --> BlockChain:
+@enduml
